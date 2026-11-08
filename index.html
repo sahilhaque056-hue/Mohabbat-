@@ -1,186 +1,129 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mohabbat ❤️ | Muskan</title>
-
 <style>
 *{box-sizing:border-box}
-body{
-margin:0;
-min-height:100vh;
-background:radial-gradient(circle,#4b1640,#160516,#050008);
-color:white;
-font-family:Georgia,serif;
-text-align:center;
-padding:20px;
-}
-h1{
-color:#ff9dcc;
-font-size:48px;
-text-shadow:0 0 20px #ff1493;
-}
-h2{color:#ffc0dc}
-p{color:#ffe0ef}
-.box{
-max-width:600px;
-margin:25px auto;
-padding:25px;
-border:1px solid #ff69b4;
-border-radius:25px;
-background:#240b20;
-box-shadow:0 0 25px #ff149355;
-}
-.grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:12px;
-margin:20px auto;
-}
-.card{
-height:90px;
-font-size:35px;
-border:0;
-border-radius:15px;
-background:linear-gradient(145deg,#ff9ed0,#8d246d);
-box-shadow:0 7px 0 #54133f;
-cursor:pointer;
-transition:.2s;
-}
-.card:hover{transform:translateY(-4px)}
+body{margin:0;min-height:100vh;background:radial-gradient(circle,#4b1640,#160516,#050008);color:white;font-family:Georgia,serif;text-align:center;padding:20px}
+h1{color:#ff9dcc;font-size:clamp(36px,7vw,52px);text-shadow:0 0 20px #ff1493}
+h2{color:#ffc0dc}p{color:#ffe0ef;line-height:1.5}
+.box{max-width:650px;margin:25px auto;padding:25px;border:1px solid #ff69b4;border-radius:25px;background:#240b20;box-shadow:0 0 25px #ff149355}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px auto}
+.card{height:clamp(65px,16vw,100px);font-size:clamp(27px,7vw,40px);border:0;border-radius:15px;background:linear-gradient(145deg,#ff9ed0,#8d246d);box-shadow:0 7px 0 #54133f;cursor:pointer;transition:.2s}
+.card:hover{transform:translateY(-3px)}
 .back{background:linear-gradient(145deg,#743c91,#321447)}
-.matched{background:linear-gradient(145deg,#9be8bc,#32966b)}
-button.action{
-padding:14px 25px;
-border-radius:40px;
-border:1px solid pink;
-background:linear-gradient(135deg,#ff1684,#a40050);
-color:white;
-font-size:18px;
-cursor:pointer;
-margin:10px;
-}
-#surprise{display:none}
-#letter{display:none}
-.signature{
-font-size:30px;
-color:#ff9dcc;
-font-style:italic;
-}
+.matched{background:linear-gradient(145deg,#9be8bc,#32966b);box-shadow:0 7px 0 #24664b}
+button.action{padding:14px 25px;border-radius:40px;border:1px solid pink;background:linear-gradient(135deg,#ff1684,#a40050);color:white;font-size:17px;cursor:pointer;margin:10px}
+#surprise{display:none}#letter{display:none}
+.signature{font-size:30px;color:#ff9dcc;font-style:italic}
 audio{width:100%;margin-top:15px}
+.small{font-size:13px;color:#dba8c5}
 </style>
 </head>
-
 <body>
-
 <h1>💖 Mohabbat 💖</h1>
 <h2>For My Beautiful Wife Muskan 🌸</h2>
 <p>Match the cute flowers & emojis to unlock your surprise 💝</p>
 
 <div class="box">
 <h2>🌷 Love Garden 🌷</h2>
-<p>Matches: <span id="score">0</span> / 8</p>
-<p>Moves: <span id="moves">0</span></p>
-
+<p>Matches: <b id="score">0</b> / 8 &nbsp; | &nbsp; Moves: <b id="moves">0</b></p>
 <div class="grid" id="game"></div>
-
-<button class="action" onclick="restart()">🔄 Restart</button>
+<button class="action" onclick="restart()">🔄 Restart Game</button>
 </div>
 
-<button class="action" id="surprise" onclick="showSurprise()">
-🎁 Surprise for Muskan
-</button>
+<button class="action" id="surprise" onclick="showSurprise()">🎁 Surprise for Muskan</button>
 
 <div class="box" id="letter">
 <h2>Surprise My Muskan ❤️</h2>
-<p>
-My Dear Muskan 🌹<br><br>
+<p>My Dear Muskan 🌹<br><br>
 Tum meri zindagi ki sabse khoobsurat mohabbat ho.<br>
 Tumhari smile meri happiness hai.<br>
 Tumhara saath meri duniya hai.<br><br>
-I Love You So Much, Muskan ❤️
-</p>
+I Love You So Much, Muskan ❤️</p>
 <div class="signature">Forever Yours 💖</div>
 <h2>∞ Together Forever ∞</h2>
 </div>
 
 <div class="box">
 <h2>🎵 Our Love Song</h2>
-<p>Apna song.mp3 yahan add karo</p>
-<audio controls loop>
-<source src="song.mp3" type="audio/mpeg">
+<p class="small">MP3 ka exact naam <b>song.mp3</b> rakho aur index.html ke same folder mein upload karo.</p>
+<audio id="loveSong" controls loop preload="auto">
+  <source src="song.mp3" type="audio/mpeg">
+  Your browser does not support audio.
 </audio>
+<button class="action" id="musicBtn" onclick="startMusic()">▶ Play / Resume Song</button>
+<p id="musicStatus" class="small">Music autoplay try ho raha hai… agar browser block kare, kisi card ya Play button ko tap karein.</p>
 </div>
 
 <script>
 const emojis=["🌹","🌸","🌷","🌻","💖","🥰","💐","💕"];
 let cards=[],first=null,lock=false,score=0,moves=0;
+const audio=document.getElementById("loveSong");
+const musicStatus=document.getElementById("musicStatus");
+let musicStarted=false;
+
+// Autoplay attempt: works only where browser permits it.
+async function startMusic(){
+  try{
+    await audio.play();
+    musicStarted=true;
+    musicStatus.textContent="🎶 Song playing — enjoy, Muskan! ❤️";
+    document.getElementById("musicBtn").textContent="🎶 Song Playing";
+  }catch(err){
+    musicStatus.textContent="Browser ne autoplay block kiya. Play / Resume Song ko tap karein.";
+  }
+}
+// Attempt on page load (browser may block sound).
+window.addEventListener("load",()=>{startMusic();});
+// Retry on first real interaction anywhere.
+document.addEventListener("pointerdown",()=>{if(!musicStarted)startMusic();},{once:true});
 
 function restart(){
-cards=[...emojis,...emojis].sort(()=>Math.random()-.5);
-first=null;lock=false;score=0;moves=0;
-document.getElementById("score").textContent=0;
-document.getElementById("moves").textContent=0;
-document.getElementById("surprise").style.display="none";
-document.getElementById("letter").style.display="none";
-draw();
+ cards=[...emojis,...emojis].sort(()=>Math.random()-.5);
+ first=null;lock=false;score=0;moves=0;
+ document.getElementById("score").textContent=0;
+ document.getElementById("moves").textContent=0;
+ document.getElementById("surprise").style.display="none";
+ document.getElementById("letter").style.display="none";
+ draw();
 }
-
 function draw(){
-const g=document.getElementById("game");
-g.innerHTML="";
-cards.forEach((emoji,i)=>{
-let b=document.createElement("button");
-b.className="card back";
-b.textContent="💗";
-b.onclick=()=>flip(i,b);
-g.appendChild(b);
-});
+ const g=document.getElementById("game");g.innerHTML="";
+ cards.forEach((emoji,i)=>{
+  const b=document.createElement("button");b.className="card back";b.textContent="💗";
+  b.setAttribute("aria-label","Hidden matching card");
+  b.onclick=()=>flip(i,b);g.appendChild(b);
+ });
 }
-
 function flip(i,b){
-if(lock||b.classList.contains("matched")||
-b.classList.contains("open"))return;
-b.classList.remove("back");
-b.classList.add("open");
-b.textContent=cards[i];
-
-if(first===null){first={i,b};return;}
-moves++;
-document.getElementById("moves").textContent=moves;
-let a=first;
-if(cards[a.i]===cards[i]){
-a.b.classList.add("matched");
-b.classList.add("matched");
-score++;
-document.getElementById("score").textContent=score;
-first=null;
-if(score===8){
-document.getElementById("surprise").style.display="inline-block";
+ if(lock||b.classList.contains("matched")||b.classList.contains("open"))return;
+ // User tapped a game card: retry audio if autoplay was blocked.
+ if(!musicStarted)startMusic();
+ b.classList.remove("back");b.classList.add("open");b.textContent=cards[i];
+ if(first===null){first={i,b};return;}
+ moves++;document.getElementById("moves").textContent=moves;
+ const a=first;
+ if(cards[a.i]===cards[i]){
+  a.b.classList.add("matched");b.classList.add("matched");score++;
+  document.getElementById("score").textContent=score;first=null;
+  if(score===8)document.getElementById("surprise").style.display="inline-block";
+ }else{
+  lock=true;setTimeout(()=>{
+   a.b.textContent="💗";b.textContent="💗";
+   a.b.classList.add("back");b.classList.add("back");
+   a.b.classList.remove("open");b.classList.remove("open");
+   first=null;lock=false;
+  },850);
+ }
 }
-}else{
-lock=true;
-setTimeout(()=>{
-a.b.textContent="💗";
-b.textContent="💗";
-a.b.classList.add("back");
-b.classList.add("back");
-a.b.classList.remove("open");
-b.classList.remove("open");
-first=null;lock=false;
-},800);
-}
-}
-
 function showSurprise(){
-document.getElementById("letter").style.display="block";
-document.getElementById("letter").scrollIntoView({behavior:"smooth"});
+ document.getElementById("letter").style.display="block";
+ document.getElementById("letter").scrollIntoView({behavior:"smooth"});
 }
-
 restart();
 </script>
-
 </body>
 </html>
